@@ -299,6 +299,7 @@ public CaptchaValidator imageCaptchaValidator(CaptchaRepository captchaRepositor
 graph TB
 	base(CaptchaValidator) --> abstract(AbstractCaptchaValidator)
 	abstract --> email(EmailCaptchaValidator)
+	
 	abstract --> image(ImageCaptchaValidator)
 	abstract --> sms(SmsCaptchaValidator)
 ```
