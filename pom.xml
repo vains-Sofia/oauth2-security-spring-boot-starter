@@ -14,7 +14,7 @@
     <name>oauth2-security-spring-boot-starter</name>
     <description>该项目是对 Spring OAuth2 Authorization Server 的一个封装，利用 Spring Boot 自动配置的特点可以快速的集成 Spring Authorization Server 框架，引入 starter 后可以很方便的使用 Spring Authorization Server 原有功能，并且扩展功能也可以像其它 Security 的 DSL 配置方式进行配置。</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
     </properties>
     <dependencies>
         <dependency>
