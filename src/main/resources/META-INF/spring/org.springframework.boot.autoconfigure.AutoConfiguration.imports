@@ -1,0 +1,4 @@
+com.vains.authorization.RedisRelatedConfiguration
+com.vains.authorization.FederationRelatedConfiguration
+com.vains.authorization.OAuth2SecurityAutoConfiguration
+com.vains.authorization.property.CaptchaValidateProperties
