@@ -251,7 +251,7 @@ graph TB
 	sms --> |当前请求需要校验短信验证码| e(调用通用校验器验证)
 	other --> |其它验证器| f(自定义验证实现)
 	
-	failure(验证失败处理,响应) --> start
+	failure(验证失败处理,响应)
 	b --> |验证失败| failure 
 	d --> |验证失败| failure 
 	e --> |验证失败| failure
@@ -299,7 +299,7 @@ public CaptchaValidator imageCaptchaValidator(CaptchaRepository captchaRepositor
 graph TB
 	base(CaptchaValidator) --> abstract(AbstractCaptchaValidator)
 	abstract --> email(EmailCaptchaValidator)
-	abstract -->|测试| image(ImageCaptchaValidator)
+	abstract --> image(ImageCaptchaValidator)
 	abstract --> sms(SmsCaptchaValidator)
 ```
 
