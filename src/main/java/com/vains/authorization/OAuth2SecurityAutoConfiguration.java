@@ -117,7 +117,7 @@ public class OAuth2SecurityAutoConfiguration {
     public RegisteredClientRepository registeredClientRepository(PasswordEncoder passwordEncoder) {
 		RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 // 客户端id
-                .clientId("messaging-client")
+                .clientId(UUID.randomUUID().toString())
                 // 客户端秘钥，使用密码解析器加密
                 .clientSecret(passwordEncoder.encode("123456"))
                 // 客户端认证方式，基于请求头的认证
@@ -132,23 +132,8 @@ public class OAuth2SecurityAutoConfiguration {
                 .scope("message.read").scope("message.write")
                 // 客户端设置，设置用户需要确认授权
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build()).tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE).build()).build();
-
-		// 基于db存储客户端，还有一个基于内存的实现 InMemoryRegisteredClientRepository
-		RegisteredClientRepository registeredClientRepository = new InMemoryRegisteredClientRepository(registeredClient);
-
-		// 设备码授权客户端
-		RegisteredClient deviceClient = RegisteredClient.withId(UUID.randomUUID().toString()).clientId("device-message-client")
-                // 公共客户端
-                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
-                // 设备码授权
-                .authorizationGrantType(AuthorizationGrantType.DEVICE_CODE).authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                // 自定scope
-                .scope("message.read").scope("message.write").build();
-		RegisteredClient byClientId = registeredClientRepository.findByClientId(deviceClient.getClientId());
-		if (byClientId == null) {
-			registeredClientRepository.save(deviceClient);
-		}
-		return registeredClientRepository;
+		// 生成一个默认客户端，防止报错
+		return new InMemoryRegisteredClientRepository(registeredClient);
 	}
 
 	/**
