@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -106,7 +107,12 @@ public class CaptchaValidateProperties {
             info.setMatcherInfos(matcherInfos);
         }
         if (!ObjectUtils.isEmpty(cacheKey)) {
+            if (Objects.equals(cacheKey, codeParameter)) {
+                cacheKey += "Id";
+            }
             info.setCacheKey(cacheKey);
+        } else {
+            info.setCacheKey(type + "Id");
         }
         info.setCodeParameter(codeParameter);
 
@@ -133,11 +139,11 @@ public class CaptchaValidateProperties {
         String emailCacheKey = "email";
 
         if (!this.validate.containsKey(DefaultConstants.SMS_CAPTCHA_VALIDATE)) {
-            this.addValidate(DefaultConstants.SMS_CAPTCHA_VALIDATE, smsUri, (null), (null), smsCacheKey);
+            this.addValidate(DefaultConstants.SMS_CAPTCHA_VALIDATE, smsUri, ("sms"), (null), smsCacheKey);
         }
 
         if (!this.validate.containsKey(DefaultConstants.EMAIL_CAPTCHA_VALIDATE)) {
-            this.addValidate(DefaultConstants.EMAIL_CAPTCHA_VALIDATE, emailUri, (null), (null), emailCacheKey);
+            this.addValidate(DefaultConstants.EMAIL_CAPTCHA_VALIDATE, emailUri, ("mail"), (null), emailCacheKey);
         }
 
         if (!this.validate.containsKey(DefaultConstants.IMAGE_CAPTCHA_VALIDATE)) {

@@ -1,16 +1,14 @@
 package com.vains.authorization.validator;
 
 import com.vains.authorization.basic.captcha.CaptchaRepository;
+import com.vains.authorization.captcha.BasicCaptcha;
 import com.vains.authorization.captcha.CaptchaType;
 import com.vains.authorization.exception.InvalidCaptchaException;
-import com.vains.authorization.captcha.BasicCaptcha;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
-
-import java.util.Objects;
 
 /**
  * 默认通用校验器
@@ -41,7 +39,7 @@ public class DefaultCommonValidator {
             throw new InvalidCaptchaException("验证码已过期，请刷新重试");
         }
 
-        if (!Objects.equals(cacheCaptcha.getCode(), codeInRequest)) {
+        if (!codeInRequest.equalsIgnoreCase(cacheCaptcha.getCode())) {
             throw new InvalidCaptchaException("验证码错误");
         }
 

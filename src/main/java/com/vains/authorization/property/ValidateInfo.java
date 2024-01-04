@@ -1,6 +1,5 @@
 package com.vains.authorization.property;
 
-import com.vains.authorization.constant.DefaultConstants;
 import lombok.Data;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public class ValidateInfo {
     /**
      * 获取验证码缓存key的请求头
      */
-    private String cacheKey = DefaultConstants.CAPTCHA_HEADER_KEY;
+    private String cacheKey;
 
     /**
      * 获取验证码的参数名
