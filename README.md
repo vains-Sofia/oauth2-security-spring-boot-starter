@@ -237,7 +237,7 @@ vains:
 ```mermaid
 graph TB
 	start(浏览器发起请求) --> filter(CaptchaAuthorizationFilter)
-	filter --> a{是否需要校验}
+	filter --> a(是否需要校验)
 	a --> |该请求无需校验| c(请求继续执行)
 	c --> chain(过滤器链)
 	a --> |该请求需要校验| manager(CaptchaValidatorManager)
