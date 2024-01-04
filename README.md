@@ -235,32 +235,33 @@ vains:
 在验证码过滤器中根据当前请求在`CaptchaValidatorManager`中找到对应的验证码校验器，然后对当前请求进行校验，如果校验通过请求继续执行，校验失败调用配置的`failureHandler`进行验证失败处理。
 
 ```mermaid
-graph TB
-	start(浏览器发起请求) --> filter(CaptchaAuthorizationFilter)
-	filter --> a(是否需要校验)
-	a --> |该请求无需校验| c(请求继续执行)
-	c --> chain(过滤器链)
-	a --> |该请求需要校验| manager(CaptchaValidatorManager)
-	manager --> email(EmailCaptchaValidator)
-	manager --> image(ImageCaptchaValidator)
-	manager --> sms(SmsCaptchaValidator)
-	manager --> other(...CaptchaValidator)
-	
-	email --> |当前请求需要校验邮件验证码| b(调用通用校验器验证)
-	image --> |当前请求需要校验图片验证码| d(调用通用校验器验证)
-	sms --> |当前请求需要校验短信验证码| e(调用通用校验器验证)
-	other --> |其它验证器| f(自定义验证实现)
-	
-	failure(验证失败处理,响应)
-	b --> |验证失败| failure 
-	d --> |验证失败| failure 
-	e --> |验证失败| failure
-	f --> |验证失败| failure
-	
-	b --> |验证成功| c 
-	d --> |验证成功| c
-	e --> |验证成功| c
-	f --> |验证成功| c
+graph TD
+    start(浏览器发起请求) -->|通过CaptchaAuthorizationFilter| cFilter(CaptchaAuthorizationFilter)
+    cFilter -->|是否需要校验| a(是否需要校验)
+    a -->|无需校验| c(请求继续执行)
+    a -->|需要校验| manager(CaptchaValidatorManager)
+    c --> chain(过滤器链)
+
+    manager -->|邮件验证码| email(EmailCaptchaValidator)
+    manager -->|图片验证码| image(ImageCaptchaValidator)
+    manager -->|短信验证码| sms(SmsCaptchaValidator)
+    manager -->|其他验证器| other(...CaptchaValidator)
+
+    email -->|需要校验| b(调用通用校验器验证)
+    image -->|需要校验| d(调用通用校验器验证)
+    sms -->|需要校验| e(调用通用校验器验证)
+    other -->|需要校验| f(自定义验证实现)
+
+    b -->|验证失败| failure(验证失败处理,响应)
+    d -->|验证失败| failure
+    e -->|验证失败| failure
+    f -->|验证失败| failure
+
+    b -->|验证成功| c
+    d -->|验证成功| c
+    e -->|验证成功| c
+    f -->|验证成功| c
+
 ```
 
 ### 默认验证器说明
