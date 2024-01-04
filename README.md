@@ -24,7 +24,7 @@
 - [x] 短信登录(只负责验证)
 - [x] 邮箱登录(只负责验证)
 - [x] OAuth2密码模式
-- [x] 三方登录~~用户信息处理、~~微信登录适配
+- [x] 三方登录微信登录适配
 - [x] 提供基于Redis的核心服务实现
 
 # 快速开始
@@ -238,12 +238,19 @@ vains:
 graph TB
 	start(浏览器发起请求) --> filter(CaptchaAuthorizationFilter)
 	filter --> a{是否需要校验}
-	a --> |该请求无需校验| c(请求继续执行) --> chain(过滤器链)
+	a --> |该请求无需校验| c(请求继续执行)
+	c --> chain(过滤器链)
 	a --> |该请求需要校验| manager(CaptchaValidatorManager)
-	manager --> email(EmailCaptchaValidator) --> |当前请求需要校验邮件验证码| b(调用通用校验器验证)
-	manager --> image(ImageCaptchaValidator) --> |当前请求需要校验图片验证码| d(调用通用校验器验证)
-	manager --> sms(SmsCaptchaValidator) --> |当前请求需要校验短信验证码| e(调用通用校验器验证)
-	manager --> other(...CaptchaValidator) --> |其它验证器| f(自定义验证实现)
+	manager --> email(EmailCaptchaValidator)
+	manager --> image(ImageCaptchaValidator)
+	manager --> sms(SmsCaptchaValidator)
+	manager --> other(...CaptchaValidator)
+	
+	email --> |当前请求需要校验邮件验证码| b(调用通用校验器验证)
+	image --> |当前请求需要校验图片验证码| d(调用通用校验器验证)
+	sms --> |当前请求需要校验短信验证码| e(调用通用校验器验证)
+	other --> |其它验证器| f(自定义验证实现)
+	
 	failure(验证失败处理,响应) --> start
 	b --> |验证失败| failure 
 	d --> |验证失败| failure 
